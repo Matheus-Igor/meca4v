@@ -96,7 +96,7 @@ void setup(){
   servo1.write(0); // setup do servo 1 com angulo padrao 0
   servo2.write((180*fatorDeCorrecaoDoServo2)-0); // setup do servo 2 com angulo padrao 0
   caneta.write(180-0); // setup da caneta com angulo padrao 90
-  Serial.println("Setup concluido com sucesso");
+  Serial.println("Setup concluido com sucesso"); // alerta de que o programa comecou
   delay(1000);
 }
 
@@ -107,7 +107,7 @@ void loop(){
 void atualizeServos(){
     float m = anguloDoServo1;
     float n = anguloDoServo2;
-    cinematicaInversa();
+    cinematicaInversa(); // chamada da funcao que realiza o calculo da cinematica inversa
     if (canetaNoPapel == true) {
         Serial.print("Status da caneta: ");
         Serial.println("abaixada");
@@ -158,7 +158,7 @@ void atualizeServos(){
         pontoX = pontoX + 2;
         pontoY = pontoY + 2;
       }   
-    atualizeCaneta();
+    atualizeCaneta(); // chamada da funcao que atualiza o angulo da caneta
     delay(delayDoMonitorSerial);
 }
 
