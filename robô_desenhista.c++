@@ -7,10 +7,10 @@ int tamanhoDoElo1 = 5; // tamanho do servo 1
 int tamanhoDoElo2 = 8; // tamanho do servo 2
 float anguloDoServo2 = 0; // angulo do servo 2 que varia de 0 a 180 graus
 float angulosNecessariosParaOServo2TerminarOMovimento = 0; // angulos necessarios para o servo 1 terminar o movimento
-int delayDoMonitorSerial = 0;
-float fatorDeCorrecaoDoServo2 = 0.965;
-int delayDoServo = 10;
-bool canetaNoPapel = false;
+int delayDoMonitorSerial = 0; // delay do monitor serial
+float fatorDeCorrecaoDoServo2 = 0.965; // fator de correcao do servo 2. use 1 em caso de normalidade na montagem do robo
+int delayDoServo = 10; // delay do servo
+bool canetaNoPapel = false; // status da caneta
 float pontosDoDesenho[]={
 -9.44, 7.35,-9.38, 7.37,-9.40, 7.43,-9.31, 7.48,-9.24, 7.51,-9.17, 7.53,
 -9.09, 7.52,-9.01, 7.51,-8.97, 7.46,-8.90, 7.43,-8.86, 7.38,-8.78, 7.33,
@@ -158,7 +158,7 @@ void atualizeServos(){
         pontoX = pontoX + 2;
         pontoY = pontoY + 2;
       }   
-    atualizeCaneta(); // chamada da funcao que atualiza o angulo da caneta
+    atualizeCaneta(); // chamada da funcao que levanta ou abaixa a caneta
     delay(delayDoMonitorSerial);
 }
 
@@ -173,7 +173,7 @@ void cinematicaInversa(){ // calculo da cinematica inversa atraves do tamanho do
     anguloDoServo2 = 180-(anguloDoServo2*(180/M_PI));
 }
 
-void atualizeCaneta(){ // função que levanta ou abaixa a caneta
+void atualizeCaneta(){ // funcao que levanta ou abaixa a caneta
     if (canetaNoPapel == true) {
         caneta.write(180-90);
         delay(delayDoServo);
