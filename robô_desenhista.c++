@@ -148,7 +148,7 @@ void atualizeServos(){
       delay(1000);
       canetaNoPapel = true;
       }
-    if (pontoX >= 859 && pontoY >= 860) {
+    if (pontoX >= 860 && pontoY >= 861) {
         Serial.println("Ultimos pontos alcancados. Levantando a caneta em 1 segundo");
         delay(1000);
         canetaNoPapel = false;
