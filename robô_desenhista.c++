@@ -9,7 +9,7 @@ float anguloDoServo2 = 0; // angulo do servo 2 que varia de 0 a 180 graus
 float angulosNecessariosParaOServo2TerminarOMovimento = 0; // angulos necessarios para o servo 1 terminar o movimento
 int delayDoMonitorSerial = 0;
 float fatorDeCorrecaoDoServo2 = 0.965;
-int delayDoServo = 5;
+int delayDoServo = 10;
 bool canetaNoPapel = false;
 float pontosDoDesenho[]={
 -9.44, 7.35,-9.38, 7.37,-9.40, 7.43,-9.31, 7.48,-9.24, 7.51,-9.17, 7.53,
@@ -135,8 +135,8 @@ void atualizeServos(){
         anguloDoServo2 = anguloDoServo2+(angulosNecessariosParaOServo2TerminarOMovimento/5);
         servo1.write(anguloDoServo1);
         servo2.write((180*fatorDeCorrecaoDoServo2)-anguloDoServo2);
-        delay(delayDoServo);
     }
+    delay(delayDoServo);
     Serial.print("Angulo do servo 1: ");
     Serial.println(anguloDoServo1);
     delay(delayDoMonitorSerial);
