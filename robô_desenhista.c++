@@ -90,7 +90,7 @@ void atualizeServos(){
     Serial.print("Posicao do proximo ponto (x, y) do desenho no array: ");
     Serial.println((String)"["+pontoX+"] e ["+pontoY+"]");
     delay(delayDoMonitorSerial);
-    cinematicaInversa(); // chamada da funcao que realiza o calculo da cinematica inversa
+    calculeCinematicaInversa(); // chamada da funcao que realiza o calculo da cinematica inversa
     Serial.println("Cinematica inversa calculada com sucesso");
     delay(delayDoMonitorSerial);
     angulosNecessariosParaOServo1AlcancarOResultadoDaCinematicaInversa = resultadoDaCinematicaInversaDoServo1 - atualAnguloDoServo1;
@@ -119,7 +119,7 @@ void atualizeServos(){
       }   
 }
 
-void cinematicaInversa(){ // calculo da cinematica inversa atraves do tamanho dos elos e atual ponto (x, y)
+void calculeCinematicaInversa(){ // calculo da cinematica inversa atraves do tamanho dos elos e atual ponto (x, y)
     float a = sqrt(pontosDoDesenho[pontoX]*pontosDoDesenho[pontoX]+pontosDoDesenho[pontoY]*pontosDoDesenho[pontoY]);
     float b = pontosDoDesenho[pontoX]*pontosDoDesenho[pontoX]+pontosDoDesenho[pontoY]*pontosDoDesenho[pontoY];
     float c = tamanhoDoElo1*tamanhoDoElo1;
