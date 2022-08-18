@@ -9,8 +9,8 @@ float atualAnguloDoServo2 = 0; // atual angulo do servo 2
 float resultadoDaCinematicaInversaDoServo2 = 0; // resultado da cinematica do servo 2 que varia de 0 a 180
 int delayDoMonitorSerial = 0; // delay do monitor serial
 float fatorDeCorrecaoDoServo2 = 0.965; // fator de correcao do servo 2. use 1 em caso de normalidade na montagem do robo
-bool canetaNoPapel = false; // status da caneta
-float pontosDoDesenho[]={-9.44, 7.35,
+float pontosDoDesenho[]={
+-9.44, 7.35,
 -9.38, 7.37,
 -9.40, 7.43,
 -9.31, 7.48,
@@ -464,29 +464,15 @@ void loop(){
 
 void atualizeServos(){
     float angulosNecessariosParaOServo1AlcancarOResultadoDaCinematicaInversa = 0;
-      float angulosNecessariosParaOServo2AlcancarOResultadoDaCinematicaInversa = 0;
-        if (canetaNoPapel == true) {
-        caneta.write(180-90);
-        delay(10);
-        Serial.print("Status da caneta: ");
-        Serial.println(canetaNoPapel);
-        delay(delayDoMonitorSerial);
-    }
-    if (canetaNoPapel == false) {
-        caneta.write(180-0);
-        delay(10);
-        Serial.print("Status da caneta: ");
-        Serial.println(canetaNoPapel);
-        delay(delayDoMonitorSerial);
-    }
+    float angulosNecessariosParaOServo2AlcancarOResultadoDaCinematicaInversa = 0;
     float atualAnguloDoServo1 = resultadoDaCinematicaInversaDoServo1;
     float atualAnguloDoServo2 = resultadoDaCinematicaInversaDoServo2;
-    Serial.print("Posicao do proximo ponto (x, y) do desenho no array: ");
-    Serial.println((String)"["+pontoX+"] e ["+pontoY+"]");
-    delay(delayDoMonitorSerial);
+    //Serial.print("Posicao do proximo ponto (x, y) do desenho no array: ");
+    //Serial.println((String)"["+pontoX+"] e ["+pontoY+"]");
+    //delay(delayDoMonitorSerial);
     calculeCinematicaInversa(); // chamada da funcao que realiza o calculo da cinematica inversa
-    Serial.println("Cinematica inversa calculada com sucesso");
-    delay(delayDoMonitorSerial);
+    //Serial.println("Cinematica inversa calculada com sucesso");
+    //delay(delayDoMonitorSerial);
     angulosNecessariosParaOServo1AlcancarOResultadoDaCinematicaInversa = resultadoDaCinematicaInversaDoServo1 - atualAnguloDoServo1;
     angulosNecessariosParaOServo2AlcancarOResultadoDaCinematicaInversa = resultadoDaCinematicaInversaDoServo2 - atualAnguloDoServo2;
     for (i = 0; i < 5; i++) { // suavizador do movimento da caneta que divide o avanço em 5 partes
@@ -495,22 +481,24 @@ void atualizeServos(){
         servo1.write(atualAnguloDoServo1);
         servo2.write((180*fatorDeCorrecaoDoServo2)-atualAnguloDoServo2);
     }
-    delay(10);
-    Serial.println((String)"Novo ponto (x, y) alcancado com sucesso atraves dos angulos "+atualAnguloDoServo1+" e "+atualAnguloDoServo2);
-    delay(delayDoMonitorSerial);
-    if (canetaNoPapel == false) {
+    delay(20);
+    //Serial.println((String)"Novo ponto (x, y) alcancado com sucesso atraves dos angulos "+atualAnguloDoServo1+" e "+atualAnguloDoServo2);
+    //delay(delayDoMonitorSerial);
+    if (pontoX == 0 && pontoY == 1) {
       delay(1000);
-      canetaNoPapel = true;
-      }
-    if (pontoX >= 861 && pontoY >= 862) {
-        delay(1000);
-        canetaNoPapel = false;
-        pontoX = 0;
-        pontoY = 1;
+      caneta.write(180-90);
+      delay(1000);
+    }
+    if (pontoX >= 860 && pontoY >= 861) {
+      delay(1000);
+      caneta.write(180-0);
+      delay(1000);
+      pontoX = 0;
+      pontoY = 1;
     } else {
-        pontoX = pontoX + 2;
-        pontoY = pontoY + 2;
-      }   
+      pontoX = pontoX + 2;
+      pontoY = pontoY + 2;
+    }
 }
 
 void calculeCinematicaInversa(){ // calculo da cinematica inversa atraves do tamanho dos elos e atual ponto (x, y)
